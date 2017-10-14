@@ -43,6 +43,7 @@ def trainNB0(trainMatrix, trainCategory):
     p1Num = numpy.zeros(numwords)
     p0denom = 0.0
     p1denom = 0.0
+
     for i in range(numTrainDocs):
         if trainCategory[i] == 1:
             p1Num += trainMatrix[i]
@@ -50,14 +51,14 @@ def trainNB0(trainMatrix, trainCategory):
         else:
             p0Num += trainMatrix[i]
             p0denom += sum(trainMatrix[i])
-    p1vect = numpy.(p1Num / p1denom)
-    p0vect = numpy.(p0Num / p0denom)
+    p1vect = p1Num / p1denom
+    p0vect = p0Num / p0denom
     return p1vect, p0vect, pAbusive
 
 
 def classifyNB(vec2classify, p0vec, p1vec, pClass1):
-    p1 = sum(vec2classify*p1vec) * numpy.(pClass1)
-    p0 = sum(vec2classify*p0vec) * numpy.(1 - pClass1)
+    p1 = sum(vec2classify*p1vec) * pClass1
+    p0 = sum(vec2classify*p0vec) * (1 - pClass1)
     if p1 > p0:
         return 1
     else:
