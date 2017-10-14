@@ -39,10 +39,14 @@ def trainNB0(trainMatrix, trainCategory):
     numTrainDocs = len(trainMatrix)
     numwords = len(trainMatrix[0])
     pAbusive = sum(trainCategory) / float(numTrainDocs)  # 计算p(ci),文档属于侮辱类的概率
-    p0Num = numpy.zeros(numwords)
-    p1Num = numpy.zeros(numwords)
-    p0denom = 0.0
-    p1denom = 0.0
+    # p0Num = numpy.zeros(numwords)
+    # p1Num = numpy.zeros(numwords)
+    # p0denom = 0.0
+    # p1denom = 0.0
+    p0Num = numpy.ones(numwords)
+    p1Num = numpy.ones(numwords)
+    p0denom = 2.0
+    p1denom = 2.0
     for i in range(numTrainDocs):
         if trainCategory[i] == 1:
             p1Num += trainMatrix[i]
@@ -50,14 +54,14 @@ def trainNB0(trainMatrix, trainCategory):
         else:
             p0Num += trainMatrix[i]
             p0denom += sum(trainMatrix[i])
-    p1vect = p1Num / p1denom
-    p0vect = p0Num / p0denom
+    p1vect = numpy.log(p1Num / p1denom)
+    p0vect = numpy.log(p0Num / p0denom)
     return p1vect, p0vect, pAbusive
 
 
 def classifyNB(vec2classify, p0vec, p1vec, pClass1):
-    p1 = sum(vec2classify*p1vec)*pClass1
-    p0 = sum(vec2classify*p0vec)*pClass1
+    p1 = sum(vec2classify*p1vec) + numpy.log(pClass1)
+    p0 = sum(vec2classify*p0vec) + numpy.log(1 - pClass1)
     if p1 > p0:
         return 1
     else:
@@ -72,7 +76,7 @@ if __name__ == '__main__':
     for postinDoc in postingList:
         trainMat.append(setof_word2vec(myVocabList, postinDoc))
     p1V, p0V, pAb = trainNB0(trainMat, classVec)
-
+    print('p1v:', '\n', p1V, '\n', 'p0v:', '\n', p0V)
     testEntry = ['love', 'my', 'dalmation']  # 测试样本1
     thisDoc = numpy.array(setof_word2vec(myVocabList, testEntry))  # 测试样本向量化
     if classifyNB(thisDoc, p0V, p1V, pAb):
