@@ -4,10 +4,10 @@
 # @Software: PyCharm
 
 
-import numpy
 import re
 import random
 from bayes_set import *
+
 
 def text_parse(bigstring):
     words = re.split(r'\W*', bigstring)
@@ -30,11 +30,11 @@ if __name__ == '__main__':
     postingList = []
     classVec = []
     for i in range(1, 26):
-        with open('email/spam/%d.txt' % i, 'r') as f:
+        with open('./spam/%d.txt' % i, 'r') as f:
             text = f.read()
             postingList.append(text_parse(text))
             classVec.append(1)
-        with open('email/ham/%d.txt' % i, 'r') as f:
+        with open('./ham/%d.txt' % i, 'r') as f:
             text = f.read()
             postingList.append(text_parse(text))
             classVec.append(0)
