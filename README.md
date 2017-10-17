@@ -1,5 +1,11 @@
 # machinelearning2-bayes
 朴素贝叶斯
-bayes.py是最初的贝叶斯算法，bayes2.py是改进之后的算法。
-package:news中实现的是新浪新闻的分类。
-其中bayes_set.py是自己写的算法库
+
+test.py是学习最初的一个简单版本。
+
+名字为email的包中实现了电子邮件的分类。
+
+名字为new的包中实现了新浪新闻的分类。
+
+这两个包都需要用到贝叶斯算法，自己手写的算法在bayes-set.py中。
+
